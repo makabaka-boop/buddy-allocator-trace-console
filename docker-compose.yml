@@ -1,0 +1,19 @@
+services:
+  allocator:
+    build:
+      context: ./allocator
+    container_name: buddy-allocator
+    restart: unless-stopped
+    expose:
+      - "8080"
+
+  desk:
+    build:
+      context: ./desk
+    container_name: buddy-desk
+    restart: unless-stopped
+    ports:
+      - "5173:80"
+    depends_on:
+      allocator:
+        condition: service_started
